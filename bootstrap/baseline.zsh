@@ -293,27 +293,15 @@ if [[ -n $PLATFORM_IS_MAC ]]; then
   ppinfo "Upgrade any already-installed formulae"
   brew upgrade
 
-  if [[ -z $(_brew-is-installed "bash") ]]; then
-    ppinfo "Install the latest Bash"
-    brew install bash
-  fi
-
   if [[ -z $(_brew-is-installed "zsh") ]]; then
     ppinfo "Install the latest Zsh"
-    brew install zsh
+    brew install zsh --with-pcre
   fi
 
-  if [[ -z $(cat /private/etc/shells | grep "/usr/local/bin/bash") ]]; then
-    ppinfo "Add bash to the allowed shells list if it's not already there"
-    sudo bash -c "echo /usr/local/bin/bash >> /private/etc/shells"
-  fi
   if [[ -z $(cat /private/etc/shells | grep "/usr/local/bin/zsh") ]]; then
     ppinfo "Add zsh to the allowed shells list if it's not already there"
     sudo bash -c "echo /usr/local/bin/zsh >> /private/etc/shells"
   fi
-
-  ppinfo "Change root shell to /usr/local/bin/zsh"
-  sudo chsh -s /usr/local/bin/zsh
 
   ppinfo "Change local shell to /usr/local/bin/zsh"
   chsh -s /usr/local/bin/zsh
@@ -336,7 +324,7 @@ if [[ -n $PLATFORM_IS_MAC ]]; then
   fi
 
   ppinfo "Install some cask apps"
-  brew cask install iterm2 sublime-text-dev
+  brew cask install iterm2 sourcetree onedrive evernote gpgtools ireadfast sketchup slack visual-studio-code dropbox
 fi
 
 ppemphasis "ALF_CUSTOM: $ALF_CUSTOM"
